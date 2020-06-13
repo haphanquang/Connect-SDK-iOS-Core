@@ -24,6 +24,7 @@
 #import "MediaLaunchObject.h"
 
 #import "NSObject+FeatureNotSupported_Private.h"
+#import <WebKit/WebKit.h>
 
 @interface AirPlayWebAppSession () <ServiceCommandDelegate>
 {
@@ -217,8 +218,9 @@
 
     NSString *commandString = [NSString stringWithFormat:@"window.connectManager.handleMessage({from: -1, message: \"%@\" })", message];
 
-    [self.service.mirroredService.webAppWebView stringByEvaluatingJavaScriptFromString:commandString];
-
+    [self.service.mirroredService.webAppWebView evaluateJavaScript:commandString completionHandler:^(id _Nullable data, NSError * _Nullable error) {
+    }];
+    
     if (success)
         success(nil);
 }
@@ -243,7 +245,10 @@
         NSString *messageString = [[NSString alloc] initWithData:messageData encoding:NSUTF8StringEncoding];
         NSString *commandString = [NSString stringWithFormat:@"window.connectManager.handleMessage({from: -1, message: %@ })", messageString];
 
-        [self.service.mirroredService.webAppWebView stringByEvaluatingJavaScriptFromString:commandString];
+        [self.service.mirroredService.webAppWebView evaluateJavaScript:commandString completionHandler:^(id _Nullable data, NSError * _Nullable error) {
+//            if (success)
+//                success(nil);
+        }];
 
         if (success)
             success(nil);

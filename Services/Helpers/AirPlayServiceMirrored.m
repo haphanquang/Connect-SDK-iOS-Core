@@ -461,7 +461,7 @@
     return [self sendNotSupportedFailure:failure];
 }
 
-#pragma mark - UIWebViewDelegate
+#pragma mark - WKNavigationDelegate
 
 -(void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     DLog(@"%@", error.localizedDescription);
